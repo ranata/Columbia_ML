@@ -13,7 +13,7 @@ def part1(X, y, lambd):
     ## Return : wRR, Final list of values to write in the file
     
     X_transpose = np.transpose(X)
-    X_transpose_X = np.dot(X_transpose, X)
+    
     X_transpose_y = np.dot(X_transpose, y)
     
     identity_matrix = np.eye(X_transpose_X.shape[0])
@@ -29,9 +29,15 @@ np.savetxt("wRR_" + str(lambda_input) + ".csv", wRR, delimiter="\n") # write out
 
 
 ## Solution for Part 2
-def part2():
+def part2(X, lambd, sigma2):
     ## Input : Arguments to the function
     ## Return : active, Final list of values to write in the file
+    
+    X_transpose_X = np.dot(X_transpose, X)
+    
+    identity_matrix = np.eye(X_transpose_X.shape[0])
+    
+    covar_sigma = np.linalg.inv(lambd*identity_matrix + (X_transpose_X)/sigma2)
     pass
 
 active = part2()  # Assuming active is returned from the function
