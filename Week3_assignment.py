@@ -29,15 +29,20 @@ np.savetxt("wRR_" + str(lambda_input) + ".csv", wRR, delimiter="\n") # write out
 
 
 ## Solution for Part 2
-def part2(X, lambd, sigma2):
+def part2(X, lambd, sigma2, x0):
     ## Input : Arguments to the function
     ## Return : active, Final list of values to write in the file
-    
+        
     X_transpose_X = np.dot(X_transpose, X)
+    
+    x0_transpose = np.transpose(x0)
     
     identity_matrix = np.eye(X_transpose_X.shape[0])
     
+    
     covar_sigma = np.linalg.inv(lambd*identity_matrix + (X_transpose_X)/sigma2)
+    
+    entropy_min_arg = (sigma2 + np.dot(np.dot(x0_transpose, covar_sigma), x0))
     pass
 
 active = part2()  # Assuming active is returned from the function
