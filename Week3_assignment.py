@@ -14,6 +14,8 @@ def part1(X, y, lambd):
     
     X_transpose = np.transpose(X)
     
+    X_transpose_X = np.dot(X_transpose, X)
+    
     X_transpose_y = np.dot(X_transpose, y)
     
     identity_matrix = np.eye(X_transpose_X.shape[0])
@@ -22,29 +24,32 @@ def part1(X, y, lambd):
     wRR = np.dot(np.linalg.inv(lambd*identity_matrix + X_transpose_X), X_transpose_y).tolist()
     
     return wRR
-    pass
 
 wRR = part1(X_train, y_train, lambda_input)  # Assuming wRR is returned from the function
 np.savetxt("wRR_" + str(lambda_input) + ".csv", wRR, delimiter="\n") # write output to file
 
 
 ## Solution for Part 2
-def part2(X, lambd, sigma2, x0):
+def part2(X, lambd, sigma2, D):
     ## Input : Arguments to the function
     ## Return : active, Final list of values to write in the file
-        
+    
+    X_transpose = np.transpose(X)
+
     X_transpose_X = np.dot(X_transpose, X)
-    
-    x0_transpose = np.transpose(x0)
-    
+
     identity_matrix = np.eye(X_transpose_X.shape[0])
     
     
     covar_sigma = np.linalg.inv(lambd*identity_matrix + (X_transpose_X)/sigma2)
     
-    entropy_min_arg = (sigma2 + np.dot(np.dot(x0_transpose, covar_sigma), x0))
-    pass
+    entropy = []
+
+    for x0 in D:
+        x0_transpose = np.transpose(x0)
+        entropy.append(sigma2 + np.dot(np.dot(x0_transpose, covar_sigma), x0))
+    return entropy.argsort()[-10:][::-1]
 
 active = part2()  # Assuming active is returned from the function
 np.savetxt("active_" + str(lambda_input) + "_" + 
-           str(int(sigma2_input)) + ".csv", active, delimiter=",") # write output to file
+str(int(sigma2_input)) + ".csv", active, delimiter=",") # write output to file
